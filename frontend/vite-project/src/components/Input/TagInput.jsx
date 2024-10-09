@@ -4,8 +4,6 @@ import { MdAdd, MdClose } from 'react-icons/md'
 
 const TagInput = ({ tags, setTags }) => {
 
-    console.log(tags)
-
     const [inputValue, setInputValue] = useState("")
 
     const handleInputChange = (e) => {
@@ -53,6 +51,7 @@ const TagInput = ({ tags, setTags }) => {
                     type="text"
                     className='text-sm bg-transparent border px-3 py-2 rounded outline-none'
                     placeholder='Add tags'
+                    value={inputValue}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                 />

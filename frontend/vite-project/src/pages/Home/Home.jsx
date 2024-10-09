@@ -13,8 +13,6 @@ const Home = () => {
         data: null
     })
 
-    console.log(openAddEditModal)
-
     return (
         <div>
             <Navbar />
@@ -33,6 +31,7 @@ const Home = () => {
                     />
                 </div>
             </div>
+            
             <button className='w-16 h-16 flex items-center justify-center 
             rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10'
                 onClick={() => {
