@@ -123,7 +123,7 @@ app.get("/get-user", authenticateToken, async (req, res) => {
     }
 
     return res.json({
-        user: {fullName: isUser.fullName, email: isUser.email, "_id": isUser._id, createOn: isUser.createdOn},
+        user: { fullName: isUser.fullName, email: isUser.email, "_id": isUser._id, createOn: isUser.createdOn },
         message: "",
     })
 })
@@ -166,7 +166,7 @@ app.post("/add-note", authenticateToken, async (req, res) => {
 // edit note
 app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
     const noteId = req.params.noteId
-    const { title, content, tags, isPinned } = req.body
+    const { title, content, tags } = req.body
     const { user } = req.user
 
     if (!title && !content && !tags) {
@@ -185,7 +185,6 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
         if (title) note.title = title
         if (content) note.content = content
         if (tags) note.tags = tags
-        if (isPinned) note.isPinned
 
         await note.save()
         return res.json({
@@ -261,7 +260,7 @@ app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
             return res.status(404).json({ error: true, message: "Note not found" })
         }
 
-        note.isPinned = isPinned
+        if (isPinned) note.isPinned = isPinned
 
         await note.save()
 

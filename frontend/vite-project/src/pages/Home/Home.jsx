@@ -4,6 +4,7 @@ import NoteCard from '../../components/Cards/NoteCard'
 import { MdAdd } from 'react-icons/md'
 import AddEditNote from './AddEditNote'
 import Modal from "react-modal"
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
 
@@ -12,6 +13,12 @@ const Home = () => {
         type: "add",
         data: null
     })
+
+    const [userInnfo, setUserInfo] = useState(null)
+
+    const navigate = useNavigate()
+
+    // get user Info
 
     return (
         <div>

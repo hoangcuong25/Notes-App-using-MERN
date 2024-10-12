@@ -1,28 +1,51 @@
 import React, { useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/Helper'
+import axiosInstance from '../../utils/axiosInstance'
 
 const Login = () => {
 
-    const [emai, setEmail] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState(null)
+
+    const navigate = useNavigate()
 
     const handleLogin = async (e) => {
         e.preventDefault()
 
-        if (!validateEmail(emai)) {
+        if (!validateEmail(email)) {
             setError("Please enter a valid email address.")
             return
         }
 
-        if(!password){
+        if (!password) {
             setError("Please enter the password")
             return
         }
         setError("")
+
+        //login api call
+        try {
+            const res = await axiosInstance.post("/login", {
+                email: email,
+                password: password
+            })
+
+            // handle successfully login response
+            if (res.data && res.data.accessToken) {
+                localStorage.setItem("token", res.data.accessToken)
+                navigate("/dashboard")
+            }
+        } catch (error) {
+            if (error.res && error.res.data && error.res.data.message) {
+                setError(error.res.data.message)
+            } else {
+                setError("An unexpected error occurred. Please try again")
+            }
+        }
     }
 
     return (
@@ -33,7 +56,7 @@ const Login = () => {
                     <form onSubmit={handleLogin}>
                         <h4 className='text-2xl mb-7'>Login</h4>
                         <input type="text" placeholder='Email' className='input-box'
-                            value={emai}
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
 
