@@ -6,7 +6,6 @@ import AddEditNote from './AddEditNote'
 import Modal from "react-modal"
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance'
-import Toast from '../../components/ToastMessage/Toast'
 
 const Home = () => {
 
@@ -15,27 +14,6 @@ const Home = () => {
         type: "add",
         data: null
     })
-
-    const [showToastMsg, setShowToastMsg] = useState({
-        isShown: false,
-        message: "",
-        type: "add"
-    })
-
-    const showToastMessage = (message ,type) => {
-        setShowToastMsg({
-            isShown: true,
-            message,
-            type
-        })
-    }
-
-    const handleCloseToast = () => {
-        setShowToastMsg({
-            isShown: false,
-            message: "",
-        })
-    }
 
     const [allNotes, setAllNotes] = useState([])
     const [userInfo, setUserInfo] = useState(null)
@@ -79,6 +57,22 @@ const Home = () => {
         }
     }
 
+    //delete note 
+    const deleteNote = async (data) => {
+        const noteId = data._id
+        try {
+            const res = await axiosInstance.delete("/delete-note/" + noteId)
+
+            if (res.data && !res.data.error) {
+                getAllNotes()
+            }
+        } catch (error) {
+            if (error.res && error.res.data && error.res.data.message) {
+                console.log("An unexpected error occurred")
+            }
+        }
+    }
+
     useEffect(() => {
         getAllNotes()
         getUserInfo()
@@ -100,7 +94,7 @@ const Home = () => {
                             tags={item.tags}
                             isPinned={item.isPinned}
                             onEdit={() => handleEdit(item)}
-                            onDelete={() => { }}
+                            onDelete={() => deleteNote(item)}
                             onPinNote={() => { }}
                         />
                     ))}
@@ -137,12 +131,6 @@ const Home = () => {
                 />
             </Modal>
 
-            <Toast
-                isShown={showToastMsg.isShown}
-                message={showToastMsg.message}
-                type={showToastMsg.type}
-                onClose={handleCloseToast}
-            />
         </div>
     )
 }

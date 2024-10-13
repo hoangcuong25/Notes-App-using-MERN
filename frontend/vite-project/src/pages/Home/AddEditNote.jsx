@@ -50,7 +50,6 @@ const AddEditNote = ({ onClose, type, noteData, getAllNotes }) => {
                 setError(error.res.data.message)
             }
         }
-
     }
 
     const handleAddNote = () => {
