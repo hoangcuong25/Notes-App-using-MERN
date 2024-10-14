@@ -123,7 +123,7 @@ app.get("/get-user", authenticateToken, async (req, res) => {
     }
 
     return res.json({
-        user: { fullName: isUser.fullName, email: isUser.email, "_id": isUser._id, createOn: isUser.createdOn },
+        user: { fullName: isUser.fullName, email: isUser.email, "_id": isUser._id, createdOn: isUser.createdOn },
         message: "",
     })
 })

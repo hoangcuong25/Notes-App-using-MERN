@@ -91,7 +91,8 @@ const Home = () => {
             console.log(error)
         }
     }
-
+    
+    // update isPinned value
     const updateIsPinned = async (noteData) => {
         const noteId = noteData._id
 
